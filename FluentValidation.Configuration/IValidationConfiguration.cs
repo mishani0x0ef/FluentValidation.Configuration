@@ -13,6 +13,13 @@
         IRulesBuilder<T> RegisterFor<T>();
 
         /// <summary>
+        /// Register concrete validator for specific type.
+        /// </summary>
+        /// <typeparam name="T">Type that apply validation rules.</typeparam>
+        /// <param name="validator">Validator instance.</param>
+        void RegisterFor<T>(AbstractValidator<T> validator);
+
+        /// <summary>
         /// Clear all registered validators.
         /// </summary>
         void Clear();
@@ -22,7 +29,7 @@
         /// </summary>
         /// <typeparam name="T">Type that apply validation rules.</typeparam>
         /// <returns>True if validator already registered.</returns>
-        bool ValidatorExistsFor<T>();
+        bool ExistsFor<T>();
 
         /// <summary>
         /// Return validator for specific type.

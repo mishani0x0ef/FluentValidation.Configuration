@@ -32,12 +32,28 @@ namespace FluentValidation.Configuration
             return builder;
         }
 
+        public void RegisterFor<T>(AbstractValidator<T> validator)
+        {
+            if (validator == null)
+            {
+                throw new ArgumentNullException(nameof(validator));
+            }
+
+            if (Validators.ContainsKey(typeof(T)))
+            {
+                var message = string.Format(MessageResources.RegisterSameTypeForValidation, typeof(T));
+                throw new ConfigurationException(message);
+            }
+
+            Validators.Add(typeof(T), validator);
+        }
+
         public void Clear()
         {
             Validators.Clear();
         }
 
-        public bool ValidatorExistsFor<T>()
+        public bool ExistsFor<T>()
         {
             return Validators.ContainsKey(typeof(T));
         }

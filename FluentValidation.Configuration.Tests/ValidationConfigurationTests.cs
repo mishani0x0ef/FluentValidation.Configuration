@@ -62,28 +62,59 @@ namespace FluentValidation.Configuration.Tests
         }
 
         [Test]
-        public void ValidatorExistsFor_CheckExistedValidator_True()
+        public void RegisterFor_ValidatorInstance_Success()
+        {
+            AbstractValidator<Country> validator = new InlineValidator<Country>();
+
+            Assert.That(() => ValidationConfiguration.RegisterFor(validator), Throws.Nothing);
+        }
+
+        [Test]
+        public void RegisterFor_TwoValidatorInstnacesForSameType_ThrowsException()
+        {
+            AbstractValidator<Country> firstValidator = new InlineValidator<Country>();
+            AbstractValidator<Country> secondValidator = new InlineValidator<Country>();
+
+            ValidationConfiguration.RegisterFor(firstValidator);
+
+            Assert.That(() => ValidationConfiguration.RegisterFor(secondValidator),
+                Throws.Exception.TypeOf<ConfigurationException>());
+        }
+
+        [Test]
+        public void ExistsFor_CheckExistedValidator_True()
         {
             ValidationConfiguration.RegisterFor<Country>().Build(c => c.Name, e => e.Length(1, 255));
 
-            Assert.That(ValidationConfiguration.ValidatorExistsFor<Country>(), Is.True);
+            Assert.That(ValidationConfiguration.ExistsFor<Country>(), Is.True);
         }
 
         [Test]
-        public void ValidatorExistsFor_CheckMissedValidator_False()
+        public void ExistsFor_CheckMissedValidator_False()
         {
             ValidationConfiguration.Clear();
 
-            Assert.That(ValidationConfiguration.ValidatorExistsFor<Country>(), Is.False);
+            Assert.That(ValidationConfiguration.ExistsFor<Country>(), Is.False);
         }
 
         [Test]
-        public void Clear_ClearNotEmptyConfiguration_ConfigurationCleared()
+        public void Clear_NotEmptyConfiguration_ConfigurationCleared()
         {
             ValidationConfiguration.RegisterFor<Country>();
             ValidationConfiguration.Clear();
 
-            Assert.That(() => ValidationConfiguration.ValidatorExistsFor<Country>(), Is.False);
+            Assert.That(() => ValidationConfiguration.ExistsFor<Country>(), Is.False);
+        }
+
+        [Test]
+        public void Clear_AfterValidatorInstanceRegister_ConfigurationCleared()
+        {
+            AbstractValidator<Country> validator = new InlineValidator<Country>();
+            ValidationConfiguration.RegisterFor(validator);
+
+            ValidationConfiguration.Clear();
+
+            Assert.That(() => ValidationConfiguration.ExistsFor<Country>(), Is.False);
         }
 
         [Test]
@@ -101,7 +132,7 @@ namespace FluentValidation.Configuration.Tests
         public void GetValidator_SimpleTypeValidatorValidateInvalidObject_ValidationFailed()
         {
             ValidationConfiguration.RegisterFor<Country>().Build(c => c.Name, e => e.Length(1, 255));
-            var country = new Country { Name = new string('a', 256) };
+            var country = new Country {Name = new string('a', 256)};
 
             var validator = ValidationConfiguration.GetValidator<Country>();
 
@@ -114,9 +145,9 @@ namespace FluentValidation.Configuration.Tests
             ValidationConfiguration.RegisterFor<Country>().Build(c => c.Name, e => e.Length(1, 255));
             ValidationConfiguration.RegisterFor<Address>()
                 .Build(a => a.Town, e => e.NotNull().NotEmpty())
-                .Build(a=>a.Country, e=>e.SetFromConfiguration(ValidationConfiguration));
+                .Build(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration));
 
-            var country = new Country { Name = new string('a', 10) };
+            var country = new Country {Name = new string('a', 10)};
             var address = new Address {Country = country, Town = new string('a', 10)};
 
             var validator = ValidationConfiguration.GetValidator<Address>();
@@ -132,8 +163,8 @@ namespace FluentValidation.Configuration.Tests
                 .Build(a => a.Town, e => e.NotNull().NotEmpty())
                 .Build(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration));
 
-            var country = new Country { Name = string.Empty };
-            var address = new Address { Country = country, Town = new string('a', 10) };
+            var country = new Country {Name = string.Empty};
+            var address = new Address {Country = country, Town = new string('a', 10)};
 
             var validator = ValidationConfiguration.GetValidator<Address>();
 
