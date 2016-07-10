@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentValidation.Configurat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentValidation.Configuration.Tests", "FluentValidation.Configuration.Tests\FluentValidation.Configuration.Tests.csproj", "{AB729FA7-4BAC-4382-AECF-616634C0C0A6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{093D4FBD-C61C-4AE6-99A5-2679F9E118A6}"
+	ProjectSection(SolutionItems) = preProject
+		.build\build.proj = .build\build.proj
+		.build\deploy.ps1 = .build\deploy.ps1
+		.build\FluentValidation.Configuration.nuspec = .build\FluentValidation.Configuration.nuspec
+		.build\run-tests.ps1 = .build\run-tests.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

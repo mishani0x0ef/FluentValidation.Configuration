@@ -1,0 +1,22 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="Main">
+	<PropertyGroup>
+    <PowerShell Condition=" '$(PowerShell)'=='' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShell>
+		<BaseDir>$(MSBuildProjectDirectory)\..</BaseDir>
+		<Configuration Condition="'$(Configuration)'==''">Release</Configuration>
+    <TestRunnerScript>$(MSBuildProjectDirectory)\run-tests.ps1</TestRunnerScript>
+    <SolutionFile>$(BaseDir)\FluentValidation.Configuration.sln</SolutionFile>
+		<SignPackages Condition="'$(SignPackages)'==''">False</SignPackages>
+	</PropertyGroup>
+	
+	<Target Name="Main" DependsOnTargets="Build;" />
+	
+	<Target Name="PackageRestore">
+    <!--<Exec Command="$(BaseDir)\.nuget\nuget.exe restore $(SolutionFile)" WorkingDirectory="$(BaseDir)" />-->
+	</Target>
+	
+	<Target Name="Build" DependsOnTargets="PackageRestore">
+		<MSBuild Projects="$(SolutionFile)" Properties="Configuration=$(Configuration)" Targets="Rebuild" />
+  	<MSBuild Condition="'$(SignPackages)'=='True'" Projects="$(SolutionFile)" Properties="Configuration=$(Configuration);PerformSigning=True" Targets="Rebuild" />
+	</Target>
+
+</Project>
