@@ -17,7 +17,7 @@
         /// </summary>
         /// <typeparam name="T">Type that apply validation rules.</typeparam>
         /// <param name="validator">Validator instance.</param>
-        void RegisterFor<T>(AbstractValidator<T> validator);
+        void RegisterFor<T>(IValidator<T> validator);
 
         /// <summary>
         /// Clear all registered validators.
@@ -36,6 +36,6 @@
         /// </summary>
         /// <typeparam name="T">Type that will be validated with validator.</typeparam>
         /// <returns>An instance of validator.</returns>
-        AbstractValidator<T> GetValidator<T>();
+        IValidator<T> GetValidator<T>();
     }
 }

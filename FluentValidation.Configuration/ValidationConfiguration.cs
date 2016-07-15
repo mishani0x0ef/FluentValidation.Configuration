@@ -32,7 +32,7 @@ namespace FluentValidation.Configuration
             return builder;
         }
 
-        public void RegisterFor<T>(AbstractValidator<T> validator)
+        public void RegisterFor<T>(IValidator<T> validator)
         {
             if (validator == null)
             {
@@ -58,10 +58,10 @@ namespace FluentValidation.Configuration
             return Validators.ContainsKey(typeof(T));
         }
 
-        public AbstractValidator<T> GetValidator<T>()
+        public IValidator<T> GetValidator<T>()
         {
             var validatorObj = Validators.FirstOrDefault(x => x.Key == typeof(T));
-            var validator = validatorObj.Value as AbstractValidator<T>;
+            var validator = validatorObj.Value as IValidator<T>;
 
             if (validator == null)
             {
