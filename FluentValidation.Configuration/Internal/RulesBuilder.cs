@@ -16,7 +16,7 @@ namespace FluentValidation.Configuration.Internal
 
         public RulesBuilder()
         {
-            Validator = new GenericValidator<T>();
+            Validator = new InlineValidator<T>();
         }
 
         public IRulesBuilder<T> Build<TProperty>(Expression<Func<T, TProperty>> selector, Action<IRuleBuilder<T, TProperty>> rules)
@@ -27,7 +27,6 @@ namespace FluentValidation.Configuration.Internal
 
         public AbstractValidator<T> ComposeValidator()
         {
-            //todo: it's better to return clone instead of original validator. MR
             return Validator;
         }
     }

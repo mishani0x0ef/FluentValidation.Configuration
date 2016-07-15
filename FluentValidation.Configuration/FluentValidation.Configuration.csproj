@@ -47,7 +47,6 @@
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\ConfigurationExceptionBase.cs" />
     <Compile Include="Exceptions\ValidatorNotFoundException.cs" />
-    <Compile Include="Internal\GenericValidator.cs" />
     <Compile Include="Internal\RulesBuilder.cs" />
     <Compile Include="IRulesBuilder.cs" />
     <Compile Include="IValidationConfiguration.cs" />
