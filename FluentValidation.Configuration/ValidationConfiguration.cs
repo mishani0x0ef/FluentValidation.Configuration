@@ -16,7 +16,7 @@ namespace FluentValidation.Configuration
             Validators = new Dictionary<Type, object>();
         }
 
-        public IRulesBuilder<T> RegisterFor<T>()
+        public IRulesBuilder<T> Register<T>()
         {
             if (Validators.ContainsKey(typeof(T)))
             {
@@ -32,7 +32,7 @@ namespace FluentValidation.Configuration
             return builder;
         }
 
-        public void RegisterFor<T>(IValidator<T> validator)
+        public void Register<T>(IValidator<T> validator)
         {
             if (validator == null)
             {
@@ -53,7 +53,7 @@ namespace FluentValidation.Configuration
             Validators.Clear();
         }
 
-        public bool ExistsFor<T>()
+        public bool IsExistsFor<T>()
         {
             return Validators.ContainsKey(typeof(T));
         }

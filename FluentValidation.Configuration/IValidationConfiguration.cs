@@ -10,14 +10,14 @@
         /// </summary>
         /// <typeparam name="T">Type that apply validation rules.</typeparam>
         /// <returns>RulesBuilder that could be used to configure validation for specific properties.</returns>
-        IRulesBuilder<T> RegisterFor<T>();
+        IRulesBuilder<T> Register<T>();
 
         /// <summary>
         /// Register concrete validator for specific type.
         /// </summary>
         /// <typeparam name="T">Type that apply validation rules.</typeparam>
         /// <param name="validator">Validator instance.</param>
-        void RegisterFor<T>(IValidator<T> validator);
+        void Register<T>(IValidator<T> validator);
 
         /// <summary>
         /// Clear all registered validators.
@@ -29,7 +29,7 @@
         /// </summary>
         /// <typeparam name="T">Type that apply validation rules.</typeparam>
         /// <returns>True if validator already registered.</returns>
-        bool ExistsFor<T>();
+        bool IsExistsFor<T>();
 
         /// <summary>
         /// Return validator for specific type.

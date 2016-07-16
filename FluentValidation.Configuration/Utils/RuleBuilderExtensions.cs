@@ -18,7 +18,7 @@ namespace FluentValidation.Configuration.Utils
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            if (!configuration.ExistsFor<TProperty>())
+            if (!configuration.IsExistsFor<TProperty>())
             {
                 throw new ConfigurationException(string.Format(MessageResources.ValidatorNotFound, typeof(TProperty)));
             }
