@@ -8,10 +8,11 @@ Param(
     [Parameter(Mandatory=$true)]
 	[string]$projectName
 )
+Write-Host "Starting packages publisher for ${projectName}"
 
 $currentDir = (Get-Item -Path ".\" -Verbose).FullName
 $projectFullPath = "${projectDir}\${projectName}"
-$nuspec = $projectName.Replace("csproj", "nuspec")
+$nuspec = $projectFullPath.Replace("csproj", "nuspec")
 
 # Validate.
 if(!(Test-Path -Path $nuget)) {

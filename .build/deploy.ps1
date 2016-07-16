@@ -37,6 +37,7 @@ try {
     & "./run-tests.ps1" "Release"
 
     # Publish
+    Write-Host "Run package publisher."
     & "./pack-publish.ps1" $nuget $projDir $projFileName
 }
 catch [System.Exception] {
