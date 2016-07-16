@@ -11,8 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{093D4F
 	ProjectSection(SolutionItems) = preProject
 		.build\build.proj = .build\build.proj
 		.build\deploy.ps1 = .build\deploy.ps1
-		.build\FluentValidation.Configuration.nuspec = .build\FluentValidation.Configuration.nuspec
+		.build\pack-publish.ps1 = .build\pack-publish.ps1
 		.build\run-tests.ps1 = .build\run-tests.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AED59595-EBBA-4C71-A385-8F3A07FBB956}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\nuget.exe = .nuget\nuget.exe
 	EndProjectSection
 EndProject
 Global

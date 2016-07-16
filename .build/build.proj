@@ -1,22 +1,33 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="Main">
-	<PropertyGroup>
-    <PowerShell Condition=" '$(PowerShell)'=='' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShell>
-		<BaseDir>$(MSBuildProjectDirectory)\..</BaseDir>
-		<Configuration Condition="'$(Configuration)'==''">Release</Configuration>
-    <TestRunnerScript>$(MSBuildProjectDirectory)\run-tests.ps1</TestRunnerScript>
+  <PropertyGroup>
+    <PowerShell Condition="'$(PowerShell)'==''">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShell>
+    <BaseDir>$(MSBuildProjectDirectory)\..</BaseDir>
+    <ProjDir>$(BaseDir)\FluentValidation.Configuration</ProjDir>
+    <OutputDir>$(ProjDir)\bin\$(Configuration)</OutputDir>
+    <Configuration Condition="'$(Configuration)'==''">Release</Configuration>
     <SolutionFile>$(BaseDir)\FluentValidation.Configuration.sln</SolutionFile>
-		<SignPackages Condition="'$(SignPackages)'==''">False</SignPackages>
-	</PropertyGroup>
-	
-	<Target Name="Main" DependsOnTargets="Build;" />
-	
-	<Target Name="PackageRestore">
-    <!--<Exec Command="$(BaseDir)\.nuget\nuget.exe restore $(SolutionFile)" WorkingDirectory="$(BaseDir)" />-->
-	</Target>
-	
-	<Target Name="Build" DependsOnTargets="PackageRestore">
-		<MSBuild Projects="$(SolutionFile)" Properties="Configuration=$(Configuration)" Targets="Rebuild" />
-  	<MSBuild Condition="'$(SignPackages)'=='True'" Projects="$(SolutionFile)" Properties="Configuration=$(Configuration);PerformSigning=True" Targets="Rebuild" />
-	</Target>
+  </PropertyGroup>
+  
+  <Target Name="Main" DependsOnTargets="UpdateVersion; Build;" />
 
+  <Target Name="UpdateVersion">
+    <!--todo: implement update assembly version and nuspec version. MR-->
+  </Target>
+  
+  <Target Name="PackageRestore">
+    <Exec Command="$(BaseDir)\.nuget\nuget.exe restore $(SolutionFile)" WorkingDirectory="$(BaseDir)" />
+  </Target>
+
+  <Target Name="Clear">
+    <ItemGroup>
+      <Dirs Include="$(OutputDir)"/>
+    </ItemGroup>
+    
+    <RemoveDir Directories="@(Dirs)" />
+  </Target>
+  
+  <Target Name="Build" DependsOnTargets="PackageRestore; Clear">
+    <MSBuild Projects="$(SolutionFile)" Properties="Configuration=$(Configuration);PerformSigning=True" Targets="Rebuild" />
+  </Target>
+  
 </Project>

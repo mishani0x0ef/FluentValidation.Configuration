@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<package>
+<?xml version="1.0"?>
+<package >
   <metadata>
-    <id>FluentValidation.Configuration</id>
-    <version></version>
-    <authors>Mykhailo Romaniuk</authors>
+    <id>$id$</id>
+    <version>0.1.2.0-beta</version>
+    <title>$title$</title>
+    <authors>Mykhailo.Romaniuk</authors>
+    <owners>$author$</owners>
     <licenseUrl>https://github.com/mishani0x0ef/FluentValidation.Configuration/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/mishani0x0ef/FluentValidation.Configuration</projectUrl>
-    <iconUrl></iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Provide possibility to easily configure validation rules for your project with FluentValidation.</description>
-    <summary>Provide possibility to easily configure validation rules for your project with FluentValidation.</summary>
-    <language>en-US</language>
     <releaseNotes>https://github.com/mishani0x0ef/FluentValidation.Configuration/releases</releaseNotes>
+    <copyright>Copyright 2016</copyright>
     <dependencies>
-      <dependency id="FluentValidation" version="" />
+      <dependency id="FluentValidation" version="6.2.1" />
     </dependencies>
   </metadata>
 </package>

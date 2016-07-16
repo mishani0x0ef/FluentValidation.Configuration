@@ -12,12 +12,14 @@ if([string]::IsNullOrEmpty($nUnit) -or !(Test-Path -Path $nUnit.FullName)) {
 # Get tests to run.
 $testDirs = Get-ChildItem -Recurse -Directory | where {$_.Name -like "*.Tests"};
 $testsCount = ($testDirs | measure).Count;
+$tempDir = ".build\temp";
 
 if($testsCount -gt 0) {
 	Write-Host "Detected ${testsCount} project(s) with tests. Running tests...";
-	if(!(Test-Path -Path ".build\temp")) {
-		New-Item -ItemType Directory -Path ".build\temp";
-	}	
+	if(Test-Path -Path $tempDir) {
+		Remove-Item -Path $tempDir -Recurse
+	}
+	New-Item -ItemType Directory -Path $tempDir;
 }
 else {
 	Write-Host "No tests detected. Exit.";
@@ -31,7 +33,7 @@ foreach($dir in $testDirs) {
 	$projDir = $dir.FullName;
 	$projName = $dir.BaseName;
 	$assembly = "${projDir}\bin\${configuration}\${projName}.dll";
-	$testResult = ".build\temp\${projName}.Result.xml";
+	$testResult = "${tempDir}\${projName}.Result.xml";
 
 	if(!(Test-Path -Path $assembly)) {
 		Write-Warning "Cannot found assembly for testing by path '${assembly}'.";
@@ -50,3 +52,10 @@ foreach($dir in $testDirs) {
 if($testFailed) {
 	throw "Some of tests was failed.";
 }
+
+# Celan-up
+if(Test-Path -Path $tempDir) {
+	Remove-Item -Path $tempDir -Recurse
+}
+
+Set-Location .build
