@@ -36,11 +36,11 @@ With FluentValidation.Configuration you can easily register all your validators.
 ```c#
 using FluentValidation.Configuration;
 
-public class ConfigurationProfile
+public class ValidationProfile
 {
     public IValidationConfiguration Configuration { get; }
 
-    public ConfigurationProfile()
+    public ValidationProfile()
     {
         Configuration = new ValidationConfiguration();
 
@@ -61,7 +61,7 @@ When you want to get validator for some type - it could be resolved from validat
 ```c#
 User user = new User();
 
-var profile = new ConfigurationProfile();
+var profile = new ValidationProfile();
 var validator = profile.Configuration.GetValidator<User>();
 
 validator.Validate(user);
