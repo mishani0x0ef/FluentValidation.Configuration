@@ -31,7 +31,7 @@ namespace FluentValidation.Configuration.Tests
         [Test]
         public void RegisterFor_RegisterTwoValidatorForSameType_ThrowConfigurationException()
         {
-            ValidationConfiguration.Register<Country>().Build(c => c.Name, e => e.Length(1, 255));
+            ValidationConfiguration.Register<Country>().ForMember(c => c.Name, e => e.Length(1, 255));
 
             Assert.That(() => ValidationConfiguration.Register<Country>(),
                 Throws.Exception.TypeOf<ConfigurationException>());
@@ -40,12 +40,12 @@ namespace FluentValidation.Configuration.Tests
         [Test]
         public void RegisterFor_ComplexTypeValidator_Success()
         {
-            ValidationConfiguration.Register<Country>().Build(c => c.Name, e => e.Length(1, 255));
+            ValidationConfiguration.Register<Country>().ForMember(c => c.Name, e => e.Length(1, 255));
 
             Assert.That(
                 () =>
                     ValidationConfiguration.Register<Address>()
-                        .Build(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration)),
+                        .ForMember(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration)),
                 Throws.Nothing);
         }
 
@@ -57,7 +57,7 @@ namespace FluentValidation.Configuration.Tests
             Assert.That(
                 () =>
                     ValidationConfiguration.Register<Address>()
-                        .Build(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration)),
+                        .ForMember(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration)),
                 Throws.Exception.TypeOf<ConfigurationException>());
         }
 
@@ -84,7 +84,7 @@ namespace FluentValidation.Configuration.Tests
         [Test]
         public void ExistsFor_CheckExistedValidator_True()
         {
-            ValidationConfiguration.Register<Country>().Build(c => c.Name, e => e.Length(1, 255));
+            ValidationConfiguration.Register<Country>().ForMember(c => c.Name, e => e.Length(1, 255));
 
             Assert.That(ValidationConfiguration.IsExistsFor<Country>(), Is.True);
         }
@@ -120,7 +120,7 @@ namespace FluentValidation.Configuration.Tests
         [Test]
         public void GetValidator_SimpleTypeValidatorValidateValidObject_ValidationSuccess()
         {
-            ValidationConfiguration.Register<Country>().Build(c => c.Name, e => e.Length(1, 255));
+            ValidationConfiguration.Register<Country>().ForMember(c => c.Name, e => e.Length(1, 255));
             var country = new Country {Name = new string('a', 10)};
 
             var validator = ValidationConfiguration.GetValidator<Country>();
@@ -131,7 +131,7 @@ namespace FluentValidation.Configuration.Tests
         [Test]
         public void GetValidator_SimpleTypeValidatorValidateInvalidObject_ValidationFailed()
         {
-            ValidationConfiguration.Register<Country>().Build(c => c.Name, e => e.Length(1, 255));
+            ValidationConfiguration.Register<Country>().ForMember(c => c.Name, e => e.Length(1, 255));
             var country = new Country {Name = new string('a', 256)};
 
             var validator = ValidationConfiguration.GetValidator<Country>();
@@ -142,10 +142,10 @@ namespace FluentValidation.Configuration.Tests
         [Test]
         public void GetValidator_ComplexTypeValidatorValidateValidObject_ValidationSuccess()
         {
-            ValidationConfiguration.Register<Country>().Build(c => c.Name, e => e.Length(1, 255));
+            ValidationConfiguration.Register<Country>().ForMember(c => c.Name, e => e.Length(1, 255));
             ValidationConfiguration.Register<Address>()
-                .Build(a => a.Town, e => e.NotNull().NotEmpty())
-                .Build(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration));
+                .ForMember(a => a.Town, e => e.NotNull().NotEmpty())
+                .ForMember(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration));
 
             var country = new Country {Name = new string('a', 10)};
             var address = new Address {Country = country, Town = new string('a', 10)};
@@ -158,10 +158,10 @@ namespace FluentValidation.Configuration.Tests
         [Test]
         public void GetValidator_ComplexTypeValidatorValidateInvalidInnerObject_ValidationFailed()
         {
-            ValidationConfiguration.Register<Country>().Build(c => c.Name, e => e.Length(1, 255));
+            ValidationConfiguration.Register<Country>().ForMember(c => c.Name, e => e.Length(1, 255));
             ValidationConfiguration.Register<Address>()
-                .Build(a => a.Town, e => e.NotNull().NotEmpty())
-                .Build(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration));
+                .ForMember(a => a.Town, e => e.NotNull().NotEmpty())
+                .ForMember(a => a.Country, e => e.SetFromConfiguration(ValidationConfiguration));
 
             var country = new Country {Name = string.Empty};
             var address = new Address {Country = country, Town = new string('a', 10)};

@@ -15,7 +15,7 @@ namespace FluentValidation.Configuration
         /// <param name="selector">Property selector expression.</param>
         /// <param name="rules">FluentValidation rules for property.</param>
         /// <returns></returns>
-        IRulesBuilder<T> Build<TProperty>(
+        IRulesBuilder<T> ForMember<TProperty>(
             Expression<Func<T, TProperty>> selector,
             Action<IRuleBuilder<T, TProperty>> rules);
 
@@ -23,6 +23,6 @@ namespace FluentValidation.Configuration
         /// Compose validator based on builded rules.
         /// </summary>
         /// <returns>An instance of validator that use builded rules.</returns>
-        AbstractValidator<T> ComposeValidator();
+        IValidator<T> ComposeValidator();
     }
 }
