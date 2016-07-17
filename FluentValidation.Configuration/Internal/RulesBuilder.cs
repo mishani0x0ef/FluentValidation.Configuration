@@ -19,7 +19,7 @@ namespace FluentValidation.Configuration.Internal
             Validator = new InlineValidator<T>();
         }
 
-        public IRulesBuilder<T> ForMember<TProperty>(Expression<Func<T, TProperty>> selector, Action<IRuleBuilder<T, TProperty>> rules)
+        public IRulesBuilder<T> RuleFor<TProperty>(Expression<Func<T, TProperty>> selector, Action<IRuleBuilder<T, TProperty>> rules)
         {
             rules(Validator.RuleFor(selector));
             return this;

@@ -15,7 +15,7 @@ namespace FluentValidation.Configuration
         /// <param name="selector">Property selector expression.</param>
         /// <param name="rules">FluentValidation rules for property.</param>
         /// <returns></returns>
-        IRulesBuilder<T> ForMember<TProperty>(
+        IRulesBuilder<T> RuleFor<TProperty>(
             Expression<Func<T, TProperty>> selector,
             Action<IRuleBuilder<T, TProperty>> rules);
 
