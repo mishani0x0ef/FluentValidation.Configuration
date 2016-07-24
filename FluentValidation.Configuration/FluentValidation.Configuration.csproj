@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Utils\RuleBuilderExtensions.cs" />
     <Compile Include="ValidationConfiguration.cs" />
+    <Compile Include="ValidationConfigurationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MessageResources.resx">

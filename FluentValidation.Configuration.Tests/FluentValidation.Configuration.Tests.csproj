@@ -56,14 +56,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ConfigurationExceptionTests.cs" />
+    <Compile Include="Exceptions\ValidatorNotFoundExceptionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestResources\Address.cs" />
     <Compile Include="TestResources\Country.cs" />
+    <Compile Include="TestResources\CountryValidator.cs" />
     <Compile Include="TestResources\EnumGender.cs" />
     <Compile Include="TestResources\IAddress.cs" />
     <Compile Include="TestResources\IOrder.cs" />
     <Compile Include="TestResources\Order.cs" />
     <Compile Include="TestResources\Person.cs" />
+    <Compile Include="ValidationConfigurationExtensionsTests.cs" />
     <Compile Include="ValidationConfigurationTests.cs" />
   </ItemGroup>
   <ItemGroup>

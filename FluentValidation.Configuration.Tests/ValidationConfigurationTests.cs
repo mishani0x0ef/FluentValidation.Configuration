@@ -1,4 +1,5 @@
-﻿using FluentValidation.Configuration.Exceptions;
+﻿using System;
+using FluentValidation.Configuration.Exceptions;
 using FluentValidation.Configuration.Tests.TestResources;
 using FluentValidation.Configuration.Utils;
 using NUnit.Framework;
@@ -23,13 +24,13 @@ namespace FluentValidation.Configuration.Tests
         }
 
         [Test]
-        public void RegisterFor_SingleValidator_Success()
+        public void Register_SingleValidator_Success()
         {
             Assert.That(() => ValidationConfiguration.Register<Country>(), Throws.Nothing);
         }
 
         [Test]
-        public void RegisterFor_RegisterTwoValidatorForSameType_ThrowConfigurationException()
+        public void Register_RegisterTwoValidatorForSameType_ThrowConfigurationException()
         {
             ValidationConfiguration.Register<Country>().RuleFor(c => c.Name, e => e.Length(1, 255));
 
@@ -38,7 +39,7 @@ namespace FluentValidation.Configuration.Tests
         }
 
         [Test]
-        public void RegisterFor_ComplexTypeValidator_Success()
+        public void SetFromConfiguration_ComplexTypeValidator_Success()
         {
             ValidationConfiguration.Register<Country>().RuleFor(c => c.Name, e => e.Length(1, 255));
 
@@ -50,7 +51,7 @@ namespace FluentValidation.Configuration.Tests
         }
 
         [Test]
-        public void RegisterFor_ComplexTypeValidatorWithMissedRegistrationForInnerType_Success()
+        public void SetFromConfiguration_WithMissedRegistrationForInnerType_Success()
         {
             ValidationConfiguration.Clear();
 
@@ -62,7 +63,15 @@ namespace FluentValidation.Configuration.Tests
         }
 
         [Test]
-        public void RegisterFor_ValidatorInstance_Success()
+        public void SetFromConfiguration_WithNullValidationConfiguration_ThrowArgumentNullException()
+        {
+            Assert.That(() => ValidationConfiguration.Register<Address>()
+                .RuleFor(a => a.Country, e => e.SetFromConfiguration(null)),
+                Throws.Exception.TypeOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void Register_ValidatorInstance_Success()
         {
             AbstractValidator<Country> validator = new InlineValidator<Country>();
 
@@ -70,7 +79,7 @@ namespace FluentValidation.Configuration.Tests
         }
 
         [Test]
-        public void RegisterFor_TwoValidatorInstnacesForSameType_ThrowsException()
+        public void Register_TwoValidatorInstnacesForSameType_ThrowsException()
         {
             AbstractValidator<Country> firstValidator = new InlineValidator<Country>();
             AbstractValidator<Country> secondValidator = new InlineValidator<Country>();
@@ -79,6 +88,31 @@ namespace FluentValidation.Configuration.Tests
 
             Assert.That(() => ValidationConfiguration.Register(secondValidator),
                 Throws.Exception.TypeOf<ConfigurationException>());
+        }
+
+        [Test]
+        public void Register_ConcreteValidator_Success()
+        {
+            Assert.That(() => ValidationConfiguration.Register(new CountryValidator()), Throws.Nothing);
+        }
+
+        [Test]
+        public void Register_TwoValidatorForSameTypeWithConcreteValidator_ThrowConfigurationException()
+        {
+            ValidationConfiguration.Register<Country>()
+                .RuleFor(c => c.Name, rule => rule.Length(1, 50));
+
+            Assert.That(() => ValidationConfiguration.Register(new CountryValidator()),
+                Throws.Exception.TypeOf<ConfigurationException>());
+        }
+
+        [Test]
+        public void Register_NullConcreteValidator_ThrowArgumentNullException()
+        {
+            CountryValidator validator = null;
+
+            Assert.That(() => ValidationConfiguration.Register(validator),
+                Throws.Exception.TypeOf<ArgumentNullException>());
         }
 
         [Test]
