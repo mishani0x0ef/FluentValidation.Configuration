@@ -31,19 +31,15 @@ public class OrderValidator : AbstractValidator<Order>
 }
 ```
 
-With FluentValidation.Configuration you can easily register all your validators. You also can create new validator using fluent syntax without creating separate class:
+With FluentValidation.Configuration you can easily register all your validators. You also can create new validator using fluent syntax without creating separate class. Just create your own implementation of IValidationProfile (use _AbstractValidationProfile_ which taking care of trivial things and will let you concentrate your attention on validators registration):
 
 ```c#
 using FluentValidation.Configuration;
 
-public class ValidationProfile
+public class ValidationProfile : AbstractValidationProfile
 {
-    public IValidationConfiguration Configuration { get; }
-
     public ValidationProfile()
     {
-        Configuration = new ValidationConfiguration();
-
         // Register existing validators.
         Configuration.Register(new CustomerValidator());
         Configuration.Register(new OrderValidator());
@@ -61,8 +57,9 @@ When you want to get validator for some type - it could be resolved from validat
 ```c#
 User user = new User();
 
-var profile = new ValidationProfile();
-var validator = profile.Configuration.GetValidator<User>();
+IValidationProfile profile = new ValidationProfile();
+IValidationConfiguration config = profile.Configuration;
+IValidator<User> validator = config.GetValidator<User>();
 
 validator.Validate(user);
 ```
