@@ -50,6 +50,7 @@
     <Compile Include="Internal\RulesBuilder.cs" />
     <Compile Include="IRulesBuilder.cs" />
     <Compile Include="IValidationConfiguration.cs" />
+    <Compile Include="IValidationProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -59,6 +60,7 @@
     <Compile Include="Utils\RuleBuilderExtensions.cs" />
     <Compile Include="ValidationConfiguration.cs" />
     <Compile Include="ValidationConfigurationExtensions.cs" />
+    <Compile Include="AbstractValidationProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MessageResources.resx">
