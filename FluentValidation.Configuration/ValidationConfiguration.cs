@@ -48,6 +48,11 @@ namespace FluentValidation.Configuration
             Validators.Add(typeof(T), validator);
         }
 
+        public void Remove<T>()
+        {
+            Validators.Remove(typeof(T));
+        }
+
         public void Clear()
         {
             Validators.Clear();

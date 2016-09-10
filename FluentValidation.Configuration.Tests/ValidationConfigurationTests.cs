@@ -211,5 +211,28 @@ namespace FluentValidation.Configuration.Tests
             Assert.That(() => ValidationConfiguration.GetValidator<Country>(),
                 Throws.Exception.TypeOf<ValidatorNotFoundException>());
         }
+
+        [Test]
+        public void Remove_ExistingValidator_CorrectValidatorRemoved()
+        {
+            ValidationConfiguration.Register<Country>();
+            ValidationConfiguration.Register<Address>();
+
+            ValidationConfiguration.Remove<Country>();
+
+            Assert.That(ValidationConfiguration.IsExistsFor<Country>(), Is.False);
+            Assert.That(ValidationConfiguration.IsExistsFor<Address>(), Is.True);
+        }
+
+        [Test]
+        public void Remove_NotExistingValidator_DoNothing()
+        {
+            ValidationConfiguration.Register<Address>();
+
+            ValidationConfiguration.Remove<Country>();
+
+            Assert.That(ValidationConfiguration.IsExistsFor<Country>(), Is.False);
+            Assert.That(ValidationConfiguration.IsExistsFor<Address>(), Is.True);
+        }
     }
 }

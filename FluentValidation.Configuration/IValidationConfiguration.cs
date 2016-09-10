@@ -20,6 +20,12 @@
         void Register<T>(IValidator<T> validator);
 
         /// <summary>
+        /// Remove validator for specific type if it exists.
+        /// </summary>
+        /// <typeparam name="T">Type which apply validation rules and should be removed.</typeparam>
+        void Remove<T>();
+
+        /// <summary>
         /// Clear all registered validators.
         /// </summary>
         void Clear();
